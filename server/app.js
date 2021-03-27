@@ -4,11 +4,13 @@ const cors = require('cors');
 
 // Import modules
 const contacts = require('./routes/contacts');
+const db = require('./database/db');
 
 const PORT = 3000;
 
 const server = express();
 
+// Use cors to accept all origins
 server.use(cors());
 
 server.use(express.json());
