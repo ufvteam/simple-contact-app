@@ -1,0 +1,50 @@
+class UI {
+  constructor() {
+    this.show = document.querySelector('#show');
+  }
+
+  showPeople(people) {
+    if (people.contacts.length === 0) {
+      // Create div
+      const div = document.createElement('div');
+      // Add classes
+      div.className = 'alert alert-warning text-center';
+      div.innerHTML = 'There is nobody here. Add someone now &#x1F61C';
+      // Get parent
+      const container = document.querySelector('.peoplePage');
+      // Get posts
+      const show = document.querySelector('#show');
+      // Insert alert div
+      container.insertBefore(div, show);
+
+      // Clear all the child nodes
+      show.innerHTML = '';
+    } else {
+      let output = '';
+      people.contacts.forEach((person) => {
+        output += `
+        <div class="card mb-3">
+        <div class="card-body">
+            <h4 class="card-title">${person.firstName} ${person.lastName}</h4>
+            <p class="card-text"><i class="fas fa-paper-plane"></i> ${person.email}</p>
+            <p class="card-text"><i class="fas fa-home"></i> ${person.address.street}</p>
+            <p class="card-text"><i class="fas fa-city"></i> ${person.address.city}</p>
+            <p class="card-text"><i class="fas fa-map-marked-alt"></i> ${person.address.province}</p>
+            <p class="card-text"><i class="fas fa-mail-bulk"></i> ${person.address.zipcode}</p>
+            <p class="card-text"><i class="fas fa-flag"></i> ${person.address.country}</p>
+            <a href="#" class="card-link edit" data-id="${person.contactID}">
+                <i class="fas fa-pencil-alt"></i>
+            </a>
+            <a href="#" class="card-link delete" data-id="${person.scoreID}">
+                <i class="fas fa-user-times"></i>
+            </a>
+        </div>
+    </div>
+        `;
+      });
+      this.show.innerHTML = output;
+    }
+  }
+}
+
+export const ui = new UI();
