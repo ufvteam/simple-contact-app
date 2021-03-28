@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.12/css/intlTelInput.css"
+        integrity="sha512-gxWow8Mo6q6pLa1XH/CcH8JyiSDEtiwJV78E+D+QP0EVasFs8wKXq16G8CLD4CJ2SnonHr4Lm/yY2fSI2+cbmw=="
+        crossorigin="anonymous" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+
+    <script src="https://kit.fontawesome.com/0aee9229fe.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="./css/style.css">
+    <title>Simple Contact App</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-3">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">Home</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="about.html">About</a>
+                    </li>
+                </ul>
+                <div class="float-end me-5">
+                    <button class="btn btn-danger" id="delete-all-btn">Delete All</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <!-- Checked switch -->
+        <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="dark-mode" checked>
+            <label class="form-check-label" for="dark-mode" id="toggle-text">Light Mode</label>
+        </div>
+
+        <header class="text-center">
+            <h2>Simple Contact Management</h2>
+            <hr>
+        </header>
+    </div>
+    </div>
+
+
+
+    <div class="container peoplePage">
+        <div class="card card-body">
+            <div class="row">
+                <div class="col">
+                    <a data-bs-toggle="tooltip" data-bs-placement="bottom" title="Instructions" href="#"><em
+                            class="fas fa-question float-end" data-bs-toggle="modal"
+                            data-bs-target="#instructions"></em></a>
+
+                    <p class="lead text-center">Wanna add someone to your address book?</p>
+
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="instructions" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                aria-labelledby="instructionsLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title text-danger" id="instructionsLabel">Instructions</h5>
+                        </div>
+                        <div class="modal-body">
+                            <div>
+                                This instruction shows you how to use the functions of this page.
+                            </div>
+                            <hr>
+                            <div>
+                                <h6>Add Person: </h6>
+                                Simply fill in the required fields. The added person will be added to the
+                                database and dynamically populated.
+                            </div>
+                            <hr>
+                            <div>
+                                <h6>Edit: </h6>
+                                Click on the pencil icons to edit the person. Once edited, the person can be updated and
+                                dynamically shown.
+                            </div>
+                            <hr>
+                            <div>
+                                <h6>Delete: </h6>
+                                Click on the remove icon or delete button to remove the person from the database.
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Understood</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="row">
+                    <form class="row g-3">
+                        <div class="col-md-6">
+                            <label for="fName" class="form-label">First Name</label>
+                            <input type="text" name="fName" id="fName" class="form-control" placeholder="John Doe"
+                                aria-label="First name">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="lName" class="form-label">Last Name</label>
+                            <input type="text" name="lName" id="lName" class="form-control" placeholder="Last name"
+                                aria-label="Last name">
+                        </div>
+                        <div class="col">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" name="email" id="email" class="form-control"
+                                placeholder="john.doe@gmail.com">
+                            <div class="invalid-feedback">Enter a valid email</div>
+                        </div>
+
+                        <label for="phone" class="form-label">Phone Number</label>
+                        <div class="col-md-6">
+                            <input id="phone" class="form-control" type="tel" name="phone" />
+                            <div class="invalid-feedback">Enter a valid phone number</div>
+                            <div class="text text-success" style="display: none"></div>
+                            <div class="text text-danger phone-danger" style="display: none"></div>
+                        </div>
+
+
+                        <div class="col-12">
+                            <label for="inputAddress" class="form-label">Address</label>
+                            <input type="text" id="address" class="form-control" placeholder="1234 Main St">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="city" class="form-label">City</label>
+                            <input type="text" id="city" class="form-control" placeholder="Vancouver">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="province" class="form-label">Province / State</label>
+                            <input type="text" id="province" class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="zipcode" class="form-label">Zip / Postal Code</label>
+                            <input type="text" id="zipcode" class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="country" class="form-label">Country</label>
+                            <input type="text" id="country" class="form-control">
+                        </div>
+                        <input type="hidden" id="id" value="">
+                    </form>
+
+                    <div class="block mt-3 btnGroup text-center">
+                        <button class="btn btn-primary me-2" id="add-btn"><em class="fas fa-user-plus"></em> Add
+                            Person</button>
+                        <button class="btn btn-warning me-2" id="update-btn"><em class="fas fa-edit"></em>
+                            Update</button>
+                        <button class="btn btn-danger me-2" id="delete-btn"><em class="fas fa-trash-alt"></em>
+                            Delete</button>
+                        <button class="btn btn-secondary me-2" id="back-btn"><em class="fas fa-backspace"></em>
+                            Cancel</button>
+                    </div>
+                </div>
+            </div>
+            <span class="form-end"></span>
+        </div>
+        <br>
+        <div id="show"></div>
+        <footer class="text-center mt-5">
+            <small>&copy Group 9 - All Rights Reserved!</small>
+        </footer>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.12/js/intlTelInput.min.js"
+        integrity="sha512-OnkjbJ4TwPpgSmjXACCb5J4cJwi880VRe+vWpPDlr8M38/L3slN5uUAeOeWU2jN+4vN0gImCXFGdJmc0wO4Mig=="
+        crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js"
+        integrity="sha384-KsvD1yqQ1/1+IA7gi3P0tyJcT3vR+NdBTt13hSJ2lnve8agRGXTTyNaBYmCR/Nwi"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js"
+        integrity="sha384-nsg8ua9HAw1y0W1btsyWgBklPnCUAFLuTMS2G72MMONqmOymq585AcH49TLBQObG"
+        crossorigin="anonymous"></script>
+
+    <script src="./js/darkmode.js"></script>
+    <script src="./js/validation.js"></script>
+    <script src="./js/app.js" type="module"></script>
+</body>
+
+</html>

@@ -1,0 +1,78 @@
+body {
+  background-color: aliceblue;
+}
+
+/* Dark mode */
+body.dark-mode {
+  background-color: rgb(33, 33, 33);
+  color: white;
+}
+
+body.dark-mode .btn.btn-primary {
+  background-color: rgb(105, 219, 203) !important;
+  border-color: rgb(105, 219, 203);
+  transition-duration: 0.4s;
+  color: black;
+}
+
+body.dark-mode .btn.btn-primary:hover {
+  background-color: rgb(77, 212, 153) !important;
+}
+
+body.dark-mode .btn.btn-warning {
+  background-color: rgb(255, 142, 29) !important;
+  border-color: rgb(255, 142, 29);
+  transition-duration: 0.4s;
+  color: black;
+}
+
+body.dark-mode .btn.btn-warning:hover {
+  background-color: orange !important;
+}
+
+body.dark-mode .btn.btn-danger {
+  background-color: rgb(255, 76, 42) !important;
+  border-color: rgb(255, 76, 42);
+  transition-duration: 0.4s;
+  color: black;
+}
+
+body.dark-mode .btn.btn-danger:hover {
+  background-color: rgb(255, 105, 72) !important;
+}
+
+body.dark-mode .btn.btn-info {
+  background-color: rgb(0, 153, 183) !important;
+  border-color: rgb(0, 153, 183);
+  transition-duration: 0.4s;
+  color: black;
+}
+
+body.dark-mode .btn.btn-info:hover {
+  background-color: rgb(red, green, blue) !important;
+}
+
+body.dark-mode .bg-success {
+  background-color: #36b37e !important;
+}
+
+body.dark-mode .bg-danger {
+  background-color: #c62828 !important;
+}
+
+body.dark-mode .bg-warning {
+  background-color: rgb(237, 147, 26) !important;
+}
+
+body.dark-mode .card {
+  color: white;
+  background-color: rgb(46, 46, 46);
+}
+
+body.dark-mode .modal-content {
+  background-color: rgb(18, 18, 18);
+}
+
+body.dark-mode .iti * {
+  color: black;
+}
