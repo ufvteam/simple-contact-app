@@ -95,6 +95,7 @@ createLocationTable(function (data) {
   }
 });
 
+// Get all contacts
 function getContacts(callback) {
   let query = `
     SELECT c.contactID, c.firstName, c.lastName, c.email, GROUP_CONCAT(p.number ORDER BY p.phoneID ) AS phoneNumbers, GROUP_CONCAT(p.phoneID ORDER BY p.phoneID) AS phoneIDs, c.zipcode, l.street, l.city, l.province, l.country
@@ -106,6 +107,18 @@ function getContacts(callback) {
   queryDatabase(query, callback);
 }
 
+// Get a contact
+function getAContact(id, callback) {
+  let query = `
+    SELECT c.contactID, c.firstName, c.lastName, c.email, GROUP_CONCAT(p.number ORDER BY p.phoneID ) AS phoneNumbers, GROUP_CONCAT(p.phoneID ORDER BY p.phoneID) AS phoneIDs, c.zipcode, l.street, l.city, l.province, l.country
+    FROM Contact c,  Phone_Numbers p, Location l
+    WHERE c.contactID = p.contactID AND
+          c.zipcode = l.zipcode AND 
+          c.contactID = ${id};
+  `;
+  queryDatabase(query, callback);
+}
 module.exports = {
   getContacts: getContacts,
+  getAContact: getAContact,
 };
