@@ -34,41 +34,43 @@ function queryDatabase(query, callback) {
 // Create table
 function createContactTable(callback) {
   let query = `
-  CREATE TABLE IF NOT EXISTS Contact(
-    contactID INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    firstName VARCHAR(60) NOT NULL,
-    lastName VARCHAR(60) NOT NULL,
-    email VARCHAR(60) DEFAULT NULL,
-    zipcode VARCHAR(10) NOT NULL
-  );
+    CREATE TABLE IF NOT EXISTS Contact(
+      contactID INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+      firstName VARCHAR(60) NOT NULL,
+      lastName VARCHAR(60) NOT NULL,
+      email VARCHAR(60) DEFAULT NULL,
+      zipcode VARCHAR(10) NOT NULL
+    );
   `;
   queryDatabase(query, callback);
 }
 
 function createPhoneTable(callback) {
   let query = `
-  CREATE TABLE IF NOT EXISTS Phone_Numbers(
-    phoneID INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    contactID INT(11) NOT NULL,
-    number VARCHAR(15) NOT NULL,
-    FOREIGN KEY (contactID) REFERENCES Contact (contactID) ON DELETE CASCADE ON UPDATE CASCADE
-  );
+    CREATE TABLE IF NOT EXISTS Phone_Numbers(
+      phoneID INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+      contactID INT(11) NOT NULL,
+      number VARCHAR(20) NOT NULL,
+      FOREIGN KEY (contactID) REFERENCES Contact (contactID) ON DELETE CASCADE ON UPDATE CASCADE
+    );
   `;
   queryDatabase(query, callback);
 }
 
 function createLocationTable(callback) {
   let query = `
-  CREATE TABLE IF NOT EXISTS Location(
-    zipcode VARCHAR(10) NOT NULL PRIMARY KEY,
-    street VARCHAR(60) NOT NULL,
-    province VARCHAR(20) NOT NULL,
-    country VARCHAR(20) NOT NULL
-  );
+    CREATE TABLE IF NOT EXISTS Location(
+      zipcode VARCHAR(10) NOT NULL PRIMARY KEY,
+      street VARCHAR(60) NOT NULL,
+      city VARCHAR(20) NOT NULL,
+      province VARCHAR(20) NOT NULL,
+      country VARCHAR(20) NOT NULL
+    );
   `;
   queryDatabase(query, callback);
 }
 
+// Execute the table creation when connecting to server
 createContactTable(function (data) {
   try {
     if (data) console.log('Contact Table Created!');
@@ -92,3 +94,18 @@ createLocationTable(function (data) {
     console.log('Could not create Location Table');
   }
 });
+
+function getContacts(callback) {
+  let query = `
+    SELECT c.contactID, c.firstName, c.lastName, c.email, GROUP_CONCAT(p.number ORDER BY p.phoneID ) AS phoneNumbers, GROUP_CONCAT(p.phoneID ORDER BY p.phoneID) AS phoneIDs, c.zipcode, l.street, l.city, l.province, l.country
+    FROM Contact c,  Phone_Numbers p, Location l
+    WHERE c.contactID = p.contactID AND
+          c.zipcode = l.zipcode
+    GROUP BY c.contactID;
+  `;
+  queryDatabase(query, callback);
+}
+
+module.exports = {
+  getContacts: getContacts,
+};

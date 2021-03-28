@@ -1,57 +1,53 @@
 const express = require('express');
 const router = express.Router();
 
+const db = require('../database/db');
+
 // Get all contacts
 router.get('/', function (req, res) {
-  const contacts = [
-    {
-      contactID: 1,
-      fname: 'John',
-      lname: 'Doe',
-      phone: ['123-456-7890', '122-888-9999'],
-      email: 'test@gmail.com',
-      zipcode: 'v2s 2t1',
-      address: {
-        street: '158 12th Ave',
-        city: 'Surrey',
-        province: 'British Columbia',
-        country: 'Canada',
-      },
-    },
-    {
-      contactID: 2,
-      fname: 'Hieu',
-      lname: 'Le',
-      phone: ['604-855-999', '778-888-9991'],
-      email: 'hieu.le@gmail.com',
-      zipcode: 'v2t d2a',
-      address: {
-        street: '33058 King Road',
-        city: 'Abbotsford',
-        province: 'British Columbia',
-        country: 'Canada',
-      },
-    },
-    {
-      contactID: 3,
-      fname: 'Gurjit',
-      lname: 'Singh',
-      phone: ['778-123-8889', '604-848-1499'],
-      email: 'gurjit@gmail.com',
-      zipcode: '1q2 2t6',
-      address: {
-        street: '200 South Fraser Way',
-        city: 'Abbotsford',
-        province: 'British Columbia',
-        country: 'Canada',
-      },
-    },
-  ];
-  res.status(200).json({ success: true, data: contacts });
+  db.getContacts(function (data) {
+    try {
+      if (data) {
+        let contacts = [];
+        for (let i = 0; i < data.length; i++) {
+          const phoneNumbers = data[i].phoneNumbers.split(',');
+          const phoneIDs = data[i].phoneIDs.split(',');
+
+          const contact = {
+            contactID: data[i].contactID,
+            firstName: data[i].firstName,
+            lastName: data[i].lastName,
+            email: data[i].email,
+            phoneNumbers: phoneNumbers,
+            phoneIDs: phoneIDs,
+            zipcode: data[i].zipcode,
+            address: {
+              street: data[i].street,
+              city: data[i].city,
+              province: data[i].province,
+              country: data[i].country,
+            },
+          };
+          contacts.push(contact);
+        }
+        res.status(200).json({ contacts: contacts });
+      }
+    } catch (error) {
+      res.status(400).json({ msg: 'Could not fetch the quotes' });
+    }
+  });
 });
 
 // Get single contact
-router.get('/:id', function (req, res) {});
+router.get('/:id', function (req, res) {
+  db.getContacts(function (data) {
+    try {
+      if (data) res.status(200).json({ data: data });
+    } catch (error) {
+      res.status(400).json({ msg: 'Could not fetch the quotes' });
+    }
+  });
+});
 
 // Create a contact
 router.post('/', function (req, res) {});
