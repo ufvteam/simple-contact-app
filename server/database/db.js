@@ -12,7 +12,7 @@ connection.connect(function (error) {
     console.log(error);
     connection.end();
   }
-  console.log('connected!');
+  console.log('Database Connected!');
 });
 
 function queryDatabase(query, callback) {
@@ -49,7 +49,7 @@ function createPhoneTable(callback) {
     CREATE TABLE IF NOT EXISTS Phone_Numbers(
       phoneID INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
       contactID INT(11) NOT NULL,
-      number VARCHAR(20) NOT NULL,
+      number VARCHAR(20),
       FOREIGN KEY (contactID) REFERENCES Contact (contactID) ON DELETE CASCADE ON UPDATE CASCADE
     );
   `;
@@ -104,7 +104,8 @@ createLocationTable(function (data) {
 // Get all contacts
 function getContacts(callback) {
   let query = `
-    SELECT c.contactID, c.firstName, c.lastName, c.email, GROUP_CONCAT(p.number ORDER BY p.phoneID ) AS phoneNumbers, GROUP_CONCAT(p.phoneID ORDER BY p.phoneID) AS phoneIDs, l.zipcode, l.street, l.city, l.province, l.country
+    SELECT c.contactID, c.firstName, c.lastName, c.email, GROUP_CONCAT(p.number ORDER BY p.phoneID ) AS phoneNumbers, 
+    GROUP_CONCAT(p.phoneID ORDER BY p.phoneID) AS phoneIDs, l.zipcode, l.street, l.city, l.province, l.country
     FROM Contact c,  Phone_Numbers p, Location l
     WHERE c.contactID = p.contactID AND
           c.contactID = l.contactID     
@@ -116,7 +117,8 @@ function getContacts(callback) {
 // Get a contact
 function getAContact(id, callback) {
   let query = `
-  SELECT c.contactID, c.firstName, c.lastName, c.email, GROUP_CONCAT(p.number ORDER BY p.phoneID ) AS phoneNumbers, GROUP_CONCAT(p.phoneID ORDER BY p.phoneID) AS phoneIDs, l.zipcode, l.street, l.city, l.province, l.country
+  SELECT c.contactID, c.firstName, c.lastName, c.email, GROUP_CONCAT(p.number ORDER BY p.phoneID ) AS phoneNumbers, 
+  GROUP_CONCAT(p.phoneID ORDER BY p.phoneID) AS phoneIDs, l.zipcode, l.street, l.city, l.province, l.country
   FROM Contact c,  Phone_Numbers p, Location l
   WHERE c.contactID = p.contactID AND
         c.contactID = l.contactID AND 
@@ -137,8 +139,44 @@ function insertPhoneNumbers(contact, insertId, callback) {
   }
 }
 function insertLocation(contact, insertId, callback) {
-  let query = `INSERT INTO Location(contactID, zipcode, street, city, province, country) VALUES(${insertId}, "${contact.address.zipcode}", "${contact.address.street}", "${contact.address.city}", "${contact.address.province}", "${contact.address.country}");`;
+  let query = `INSERT INTO Location(contactID, zipcode, street, city, province, country) VALUES(${insertId}, "${contact.address.zipcode}", 
+                "${contact.address.street}", "${contact.address.city}", "${contact.address.province}", "${contact.address.country}");`;
   queryDatabase(query, callback);
+}
+
+function updateContact(id, contact) {
+  try {
+    // Update contact table
+    let contactTable = `UPDATE Contact SET firstName = "${contact.firstName}", lastName = "${contact.lastName}", email = "${contact.email}" WHERE contactID = ${id}`;
+    queryDatabase(contactTable, function (data) {
+      if (data) {
+        console.log('Contact Table Updated!');
+      }
+    });
+
+    // Update location table
+    let locationTable = `UPDATE Location SET zipcode = "${contact.address.zipcode}", street = "${contact.address.street}", city = "${contact.address.city}", 
+                      province = "${contact.address.province}", country = "${contact.address.country}" WHERE contactID = ${id};`;
+
+    queryDatabase(locationTable, function (data) {
+      if (data) {
+        console.log('Location Table Updated!');
+      }
+    });
+
+    // Update phone table
+    for (let i = 0; i < contact.phoneIDs.length; i++) {
+      let query = `UPDATE Phone_Numbers SET number = "${contact.phoneNumbers[i]}" WHERE phoneID = ${contact.phoneIDs[i]} AND contactID = ${id}`;
+      queryDatabase(query, function (data) {
+        if (data) {
+          console.log(`Phone number ${i + 1} updated`);
+        }
+      });
+    }
+    return true;
+  } catch (error) {
+    return false;
+  }
 }
 
 function deleteAContact(id, callback) {
@@ -157,6 +195,7 @@ module.exports = {
   insertContact: insertContact,
   insertPhoneNumbers: insertPhoneNumbers,
   insertLocation: insertLocation,
+  updateContact: updateContact,
   deleteAContact: deleteAContact,
   deletePhoneNumber: deletePhoneNumber,
 };

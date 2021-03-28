@@ -80,14 +80,25 @@ router.post('/', function (req, res) {
       }
     });
 
-    res.status(200).json({ msg: 'Contacted created successfully!' });
+    res.status(200).json({ msg: 'Contact created successfully!' });
   } catch (error) {
     res.status(400).json({ msg: 'Could not create a contact' });
   }
 });
 
 // Update 1 contact
-router.put('/:id', function (req, res) {});
+router.put('/:id', function (req, res) {
+  try {
+    const id = req.params.id;
+    const result = db.updateContact(id, req.body);
+
+    if (result) {
+      res.status(200).json({ msg: 'Contact updated successfully!' });
+    }
+  } catch (error) {
+    res.status(400).json({ msg: 'Could not update the contact' });
+  }
+});
 
 // Delete a contact
 router.delete('/:id', function (req, res) {
