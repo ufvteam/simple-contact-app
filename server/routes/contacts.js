@@ -16,8 +16,8 @@ function convertObj(data) {
       email: data[i].email,
       phoneNumbers: phoneNumbers,
       phoneIDs: phoneIDs,
-      zipcode: data[i].zipcode,
       address: {
+        zipcode: data[i].zipcode,
         street: data[i].street,
         city: data[i].city,
         province: data[i].province,
@@ -31,36 +31,60 @@ function convertObj(data) {
 
 // Get all contacts
 router.get('/', function (req, res) {
-  db.getContacts(function (data) {
-    try {
+  try {
+    db.getContacts(function (data) {
       if (data) {
         const contacts = convertObj(data);
         res.status(200).json({ contacts: contacts });
       }
-    } catch (error) {
-      res.status(400).json({ msg: 'Could not fetch the quotes' });
-    }
-  });
+    });
+  } catch (error) {
+    res.status(400).json({ msg: 'Could not fetch the contacts' });
+  }
 });
 
 // Get single contact
 router.get('/:id', function (req, res) {
   const id = req.params.id;
-  db.getAContact(id, function (data) {
-    try {
+  try {
+    db.getAContact(id, function (data) {
       if (data) {
-        console.log(data);
         const contact = convertObj(data);
         res.status(200).json({ data: contact });
       }
-    } catch (error) {
-      res.status(400).json({ msg: 'Could not fetch the quotes' });
-    }
-  });
+    });
+  } catch (error) {
+    res.status(400).json({ msg: 'Could not fetch the contacts' });
+  }
 });
 
 // Create a contact
-router.post('/', function (req, res) {});
+router.post('/', function (req, res) {
+  let insertId;
+  try {
+    db.insertContact(req.body, function (result) {
+      if (result) {
+        insertId = result.insertId;
+        console.log('Contact inserted into Contact table');
+        db.insertPhoneNumbers(req.body, insertId, function (phoneResult) {
+          if (phoneResult !== undefined || phoneResult) {
+            console.log('Phone Number Inserted');
+          }
+        });
+
+        db.insertLocation(req.body, insertId, function (locationResult) {
+          if (locationResult !== undefined || locationResult) {
+            console.log('Location Inserted');
+          }
+        });
+      }
+    });
+
+    res.status(200).json({ msg: 'Contacted created successfully!' });
+  } catch (error) {
+    res.status(400).json({ msg: 'Could not create a contact' });
+  }
+});
 
 // Update 1 contact
 router.put('/:id', function (req, res) {});
