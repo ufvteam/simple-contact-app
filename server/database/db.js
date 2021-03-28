@@ -1,13 +1,14 @@
 const mysql = require('mysql');
 
-const connection = mysql.createConnection({
-  host: '172.16.196.3',
-  user: 'comp430_admin',
-  password: '',
-  database: 'contact_db',
+const connection = mysql.createPool({
+  connectionLimit: 10,
+  host: 'sql472.main-hosting.eu',
+  user: 'u669410571_contact_admin',
+  password: 'Contact1',
+  database: 'u669410571_contact_db',
 });
 
-connection.connect(function (error) {
+connection.getConnection(function (error) {
   if (error) {
     console.log(error);
     connection.end();
