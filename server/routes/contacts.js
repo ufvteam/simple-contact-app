@@ -90,6 +90,31 @@ router.post('/', function (req, res) {
 router.put('/:id', function (req, res) {});
 
 // Delete a contact
-router.delete('/:id', function (req, res) {});
+router.delete('/:id', function (req, res) {
+  const id = req.params.id;
+  try {
+    db.deleteAContact(id, function (data) {
+      if (data != undefined || data) {
+        res.status(200).json({ msg: 'Contact sucessfully deleted!' });
+      }
+    });
+  } catch (error) {
+    res.status(400).json({ msg: 'Could not delete the contact' });
+  }
+});
+
+// Delete a phone number
+router.delete('/phones/:id', function (req, res) {
+  const id = req.params.id;
+  try {
+    db.deletePhoneNumber(id, function (data) {
+      if (data != undefined || data) {
+        res.status(200).json({ msg: 'Phone number sucessfully deleted!' });
+      }
+    });
+  } catch (error) {
+    res.status(400).json({ msg: 'Could not delete the phone number' });
+  }
+});
 
 module.exports = router;

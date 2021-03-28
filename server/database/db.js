@@ -97,6 +97,10 @@ createLocationTable(function (data) {
   }
 });
 
+/**
+ * CRUD operations: GET, POST, PUT, DELETE
+ */
+
 // Get all contacts
 function getContacts(callback) {
   let query = `
@@ -137,10 +141,22 @@ function insertLocation(contact, insertId, callback) {
   queryDatabase(query, callback);
 }
 
+function deleteAContact(id, callback) {
+  let query = `DELETE FROM Contact WHERE contactID = ${id}`;
+  queryDatabase(query, callback);
+}
+
+function deletePhoneNumber(id, callback) {
+  let query = `DELETE FROM Phone_Numbers WHERE phoneID = ${id}`;
+  queryDatabase(query, callback);
+}
+
 module.exports = {
   getContacts: getContacts,
   getAContact: getAContact,
   insertContact: insertContact,
   insertPhoneNumbers: insertPhoneNumbers,
   insertLocation: insertLocation,
+  deleteAContact: deleteAContact,
+  deletePhoneNumber: deletePhoneNumber,
 };
