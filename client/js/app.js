@@ -54,7 +54,15 @@ class App {
     let email = document.querySelector("#email").value;
 
     let phoneNumbers = [];
-    phoneNumbers.push(document.querySelector("#phoneText > strong").innerText);
+    let formattedNumbers = document.querySelectorAll(".text-success > strong");
+
+    formattedNumbers.forEach(formattedNumber => {
+      const number = formattedNumber.innerText;
+      phoneNumbers.push(number);
+      console.log('number =>', number)
+    })
+   
+    console.log('phoneNumbers => ', phoneNumbers)
   
       let contact = {
         firstName,

@@ -14,8 +14,6 @@ class UI {
     this.province = document.querySelector("#province");
     this.country = document.querySelector("#country");
     this.phones = document.querySelectorAll('.phone');
-    this.phoneText = document.querySelector('#phoneText');
-    this.invalidPhoneText = document.querySelector('#invalidPhoneText');
     this.phoneInputCount = 1;
   }
 
@@ -141,8 +139,21 @@ class UI {
     this.city.value = '';
     this.province.value = '';
     this.country.value = '';
-    this.phoneText.innerText = '';
-    this.invalidPhoneText.innerText = '';
+    console.log(this.validPhoneText);
+
+    let validPhoneText = document.querySelectorAll('.text-success');
+    let invalidPhoneText = document.querySelectorAll('.text-danger');
+
+    if (validPhoneText.length > 0)
+    {
+
+      validPhoneText.forEach(phone => phone.innerText = '');
+    }
+    if( invalidPhoneText.length > 0) {
+
+    invalidPhoneText.forEach(phone => phone.innerText = '');
+
+    }
 
     this.phones.forEach(phone => phone.value = '');
   }
