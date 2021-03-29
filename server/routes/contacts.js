@@ -135,7 +135,7 @@ router.delete('/deleteAll', function (req, res) {
   try {
     db.deleteAllContacts(function (data) {
       if (data != undefined || data) {
-        res.status(200).json({ msg: 'Deleted All Contacts!' });
+        res.status(200).json({ msg: 'All Contacts Deleted!' });
       }
     });
   } catch (error) {

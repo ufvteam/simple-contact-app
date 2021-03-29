@@ -21,6 +21,22 @@ class App {
     // Add a person
     document.querySelector('#add-btn').addEventListener('click',this.addContact);
 
+    document.querySelector("#delete-all-btn").addEventListener('click',this.deleteAllContacts);
+
+  }
+
+  deleteAllContacts(){
+    if(confirm('Are you sure ?')){
+      http.delete(`${API_URL}/deleteAll`)
+      .then(result => {
+        ui.showAlert(result.msg,'alert alert-danger');
+
+        setTimeout(() => {
+          new People();
+        }, 600);
+        
+      }).catch(err => console.log(err))
+    }
   }
 
 
