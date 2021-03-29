@@ -102,7 +102,7 @@ router.put('/:id', function (req, res) {
 });
 
 // Delete a contact
-router.delete('/:id', function (req, res) {
+router.delete('/contacts/:id', function (req, res) {
   const id = req.params.id;
   try {
     db.deleteAContact(id, function (data) {
@@ -128,5 +128,20 @@ router.delete('/phones/:id', function (req, res) {
     res.status(400).json({ msg: 'Could not delete the phone number' });
   }
 });
+
+
+// Delete All Contacts
+router.delete('/deleteAll', function (req, res) {
+  try {
+    db.deleteAllContacts(function (data) {
+      if (data != undefined || data) {
+        res.status(200).json({ msg: 'Deleted All Contacts!' });
+      }
+    });
+  } catch (error) {
+    res.status(400).json({ msg: 'Could not delete the contacts !!' });
+  }
+});
+
 
 module.exports = router;

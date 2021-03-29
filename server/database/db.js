@@ -185,18 +185,25 @@ function deleteAContact(id, callback) {
   queryDatabase(query, callback);
 }
 
+function deleteAllContacts(callback) {
+  let query = `DELETE FROM Contact`;
+  queryDatabase(query, callback);
+}
+
+
 function deletePhoneNumber(id, callback) {
   let query = `DELETE FROM Phone_Numbers WHERE phoneID = ${id}`;
   queryDatabase(query, callback);
 }
 
 module.exports = {
-  getContacts: getContacts,
-  getAContact: getAContact,
-  insertContact: insertContact,
-  insertPhoneNumbers: insertPhoneNumbers,
-  insertLocation: insertLocation,
-  updateContact: updateContact,
-  deleteAContact: deleteAContact,
-  deletePhoneNumber: deletePhoneNumber,
+  getContacts,
+  getAContact,
+  insertContact,
+  insertPhoneNumbers,
+  insertLocation,
+  updateContact,
+  deleteAContact,
+  deletePhoneNumber,
+ deleteAllContacts
 };
