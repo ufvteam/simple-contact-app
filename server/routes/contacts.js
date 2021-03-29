@@ -66,6 +66,7 @@ router.post('/', function (req, res) {
       if (result) {
         insertId = result.insertId;
         console.log('Contact inserted into Contact table');
+      
         db.insertPhoneNumbers(req.body, insertId, function (phoneResult) {
           if (phoneResult !== undefined || phoneResult) {
             console.log('Phone Number Inserted');

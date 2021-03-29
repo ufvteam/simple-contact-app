@@ -1,8 +1,14 @@
+const API_URL = 'http://localhost:3000/api/contacts';
+import { http } from './http.js';
+
+
 class UI {
   constructor() {
     this.show = document.querySelector('#show');
+
   }
 
+  
   showPeople(people) {
     if (people.contacts.length === 0) {
       // Create div
@@ -44,6 +50,38 @@ class UI {
       });
       this.show.innerHTML = output;
     }
+  }
+
+    // Show Alert
+    showAlert(message, className) {
+      // Clear any previous alert
+      this.clearAlert();
+      // Create div
+      const div = document.createElement('div');
+      // Add classes
+      div.className = className;
+      // Add text
+      div.appendChild(document.createTextNode(message));
+      // Get parent
+      const container = document.querySelector('.peoplePage');
+      // Get posts
+      const show = document.querySelector('#show');
+      // Insert alert div
+      container.insertBefore(div, show);
+
+
+      // Timeout
+      setTimeout(() => {
+          this.clearAlert();
+      }, 2000);
+  }
+
+  // Clear Alert
+  clearAlert() {
+      const currentAlert = document.querySelector('.alert');
+      if (currentAlert) {
+          currentAlert.remove();
+      }
   }
 }
 

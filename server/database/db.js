@@ -11,7 +11,7 @@ const connection = mysql.createPool({
 connection.getConnection(function (error) {
   if (error) {
     console.log(error);
-    connection.end();
+    connection.release();
   }
   console.log('Database Connected!');
 });
@@ -21,13 +21,13 @@ function queryDatabase(query, callback) {
     if (err) {
       console.log(err);
       callback(err, function () {
-        connection.end();
+        connection.release();
       });
       return;
     }
 
     callback(results, function () {
-      connection.end();
+      connection.release();
     });
   });
 }
@@ -110,7 +110,7 @@ function getContacts(callback) {
     FROM Contact c,  Phone_Numbers p, Location l
     WHERE c.contactID = p.contactID AND
           c.contactID = l.contactID     
-    GROUP BY c.contactID;
+    GROUP BY c.contactID ORDER BY c.contactID DESC;
   `;
   queryDatabase(query, callback);
 }

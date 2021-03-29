@@ -12,9 +12,11 @@ class HTTP {
 
   // POST Request
   async post(url, inputData) {
+
+
     const res = await fetch(url, {
       method: 'POST',
-      header: { 'Content-type': 'application/json' },
+      headers: {'Content-type': 'application/json' },
       body: JSON.stringify(inputData),
     });
 
@@ -24,6 +26,8 @@ class HTTP {
 
   // PUT Request
   async put(url, inputData) {
+  
+
     const res = await fetch(url, {
       method: 'PUT',
       headers: { 'Content-type': 'application/json' },

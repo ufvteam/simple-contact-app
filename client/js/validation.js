@@ -52,13 +52,8 @@ const countryInputField = document.querySelector('#country');
 for (let i = 0; i < countryData.length; i++) {
   let country = countryData[i];
   let optionNode = document.createElement('option');
-  optionNode.value = country.iso2;
+  optionNode.value = country.name;
   let textNode = document.createTextNode(country.name);
   optionNode.appendChild(textNode);
   countryInputField.appendChild(optionNode);
 }
-
-// listen to the address dropdown for changes
-countryInputField.addEventListener('change', function () {
-  iti.setCountry(this.value);
-});

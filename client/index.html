@@ -105,7 +105,7 @@
 
             <div class="col">
                 <div class="row">
-                    <form class="row g-3">
+                    <div class="row g-3">
                         <div class="col-md-6">
                             <label for="fName" class="form-label">First Name</label>
                             <input type="text" name="fName" id="fName" class="form-control" placeholder="John"
@@ -128,7 +128,7 @@
                             <input id="phone" class="form-control" type="tel" name="phone" />
                             <a class="mx-3" href="#">+</a>
                             <div class="invalid-feedback">Enter a valid phone number</div>
-                            <div class="text text-success" style="display: none"></div>
+                            <div class="text text-success" style="display: none" id="phoneText"></div>
                             <div class="text text-danger phone-danger" style="display: none"></div>
                         </div>
 
@@ -154,17 +154,17 @@
 
                         </div>
                         <input type="hidden" id="id" value="">
-                    </form>
+                    </div>
 
                     <div class="block mt-3 btnGroup text-center">
                         <button class="btn btn-primary me-2" id="add-btn"><em class="fas fa-user-plus"></em> Add
                             Person</button>
-                        <button class="btn btn-warning me-2" id="update-btn"><em class="fas fa-edit"></em>
+                        <!-- <button class="btn btn-warning me-2" id="update-btn"><em class="fas fa-edit"></em>
                             Update</button>
                         <button class="btn btn-danger me-2" id="delete-btn"><em class="fas fa-trash-alt"></em>
                             Delete</button>
                         <button class="btn btn-secondary me-2" id="back-btn"><em class="fas fa-backspace"></em>
-                            Cancel</button>
+                            Cancel</button> -->
                     </div>
                 </div>
             </div>

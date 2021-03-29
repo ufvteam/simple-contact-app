@@ -16,6 +16,55 @@ class App {
   constructor() {
     new People();
   }
+
+  loadAllEvents() {
+    // Add a person
+    document.querySelector('#add-btn').addEventListener('click',this.addContact);
+
+  }
+
+
+  addContact(){
+
+    let firstName = document.querySelector("#fName").value;
+    let lastName = document.querySelector("#lName").value;
+    let email = document.querySelector("#email").value;
+
+    let phoneNumbers = [];
+    phoneNumbers.push(document.querySelector("#phoneText > strong").innerText);
+  
+      let contact = {
+        firstName,
+        lastName,
+        email,
+        phoneNumbers,
+        address : {
+          "zipcode": document.querySelector("#zipcode").value,
+          "street" : document.querySelector("#address").value,
+          "city" : document.querySelector("#city").value,
+          "province": document.querySelector("#province").value,
+          "country": document.querySelector("#country").value
+        }
+      }
+
+      console.log('Data is ---> ',JSON.stringify(contact));
+
+      http
+      .post(`${API_URL}`,contact)
+      .then(result => {
+
+        ui.showAlert(result.msg, 'alert alert-success')
+        setTimeout(() => {
+          new People();
+        }, 600);
+
+    
+      })
+      .catch((err) => console.log(err));
+
+  }
+
 }
 
 const app = new App();
+app.loadAllEvents();
