@@ -1,36 +1,55 @@
 document.getElementById('email').addEventListener('blur', validateEmail);
 
-const phoneInputField = document.querySelector('#phone');
+let inputField_Phone = document.querySelector('.phone');
 
-phoneInputField.addEventListener('blur', validatePhone);
-const phoneInput = window.intlTelInput(phoneInputField, {
-  preferredCountries: ['ca', 'us'],
-  separateDialCode: true,
-  utilsScript:
-    'https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js',
-});
+addCountryCode(inputField_Phone, 1);
 
-const info = document.querySelector('.text-success');
-const error = document.querySelector('.phone-danger');
 
-function validatePhone(event) {
-  event.preventDefault();
+
+export function addCountryCode(phoneInputField,phone_Count){
+
+  phoneInputField.addEventListener('blur', () => validatePhone(phoneInputField,phone_Count));
+  window.intlTelInput(phoneInputField, {
+    preferredCountries: ['ca', 'us'],
+    separateDialCode: true,
+    utilsScript:
+      'https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js',
+  });
+
+
+}
+
+
+
+
+function validatePhone(inputField, count) {
+  const info = document.querySelector(`#phoneSuccess_${count}`);
+  const error = document.querySelector(`#phoneDanger_${count}`);
+
+  console.log('Count --> ',count);
+  console.log('error -> ',error);
+  console.log('info --> ',info);
+  //event.preventDefault();
+  const phoneInput = window.intlTelInputGlobals.getInstance(inputField);
+
+  
   const fullPhoneNumber = phoneInput.getNumber(); // Save this one to database
-  const nationPhoneNumber = phoneInput.getNumber(phoneInputField.value);
+  const nationPhoneNumber = phoneInput.getNumber(inputField.value);
 
-  info.style.display = 'none';
-  error.style.display = 'none';
+  
 
   if (phoneInput.isValidNumber()) {
-    phoneInputField.classList.remove('is-invalid');
+    inputField.classList.remove('is-invalid');
     info.style.display = '';
     info.innerHTML = `Your phone number in international format: <strong>${fullPhoneNumber}</strong>`;
-    document.getElementById('phone').classList.remove('is-invalid');
-    phoneInputField.value = nationPhoneNumber;
+    error.style.display = 'none';
+    inputField.value = nationPhoneNumber;
   } else {
-    phoneInputField.classList.add('is-invalid');
+    inputField.classList.add('is-invalid');
     error.style.display = '';
+    info.style.display = '';
     error.innerHTML = `Invalid phone number.`;
+    info.style.display = 'none';
   }
 }
 

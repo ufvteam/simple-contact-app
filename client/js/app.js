@@ -1,6 +1,7 @@
 import { http } from './http.js';
 import { ui } from './ui.js';
 
+
 const API_URL = 'http://localhost:3000/api/contacts';
 
 class People {
@@ -21,9 +22,15 @@ class App {
     // Add a person
     document.querySelector('#add-btn').addEventListener('click',this.addContact);
 
+    //Delete All Contacts
     document.querySelector("#delete-all-btn").addEventListener('click',this.deleteAllContacts);
 
+    //Add one more phone Number
+    document.querySelector("#addOneMoreContact-btn").addEventListener('click',(e) => ui.addPhoneField(e));
+
   }
+
+  
 
   deleteAllContacts(){
     if(confirm('Are you sure ?')){

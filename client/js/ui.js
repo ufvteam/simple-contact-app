@@ -1,5 +1,5 @@
 const API_URL = 'http://localhost:3000/api/contacts';
-import { http } from './http.js';
+import { addCountryCode} from './validation.js';
 
 
 class UI {
@@ -16,7 +16,45 @@ class UI {
     this.phones = document.querySelectorAll('.phone');
     this.phoneText = document.querySelector('#phoneText');
     this.invalidPhoneText = document.querySelector('#invalidPhoneText');
+    this.phoneInputCount = 1;
   }
+
+
+  addPhoneField(e){
+    this.phoneInputCount++;
+
+    e.preventDefault();
+
+    let phoneNumberDiv = document.createElement("div");
+
+    phoneNumberDiv.className ='col-md-6 phoneNumberWrapper';
+
+    phoneNumberDiv.innerHTML = `<input id="phone_${this.phoneInputCount}" class="form-control phone" type="tel" name="phone" />
+    <div class="invalid-feedback">Enter a valid phone number</div>
+    <div class="text text-success" id="phoneSuccess_${this.phoneInputCount}" style="display: none"></div>
+    <div class="text text-danger phone-danger" id="phoneDanger_${this.phoneInputCount}" style="display: none"></div>
+    `;
+
+
+    // Get parent
+    const parent = document.getElementById('contactWrapper');
+
+    // Get address column
+    const address = document.getElementById('addressColumn');
+
+    
+
+    parent.insertBefore(phoneNumberDiv, address);
+
+    const phoneInput = document.querySelector(`#phone_${this.phoneInputCount}`);
+
+
+    addCountryCode(phoneInput, this.phoneInputCount);
+
+
+
+  }
+
 
   
   showPeople(people) {
