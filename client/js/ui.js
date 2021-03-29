@@ -5,7 +5,17 @@ import { http } from './http.js';
 class UI {
   constructor() {
     this.show = document.querySelector('#show');
-
+    this.firstName = document.querySelector("#fName");
+    this.lastName = document.querySelector("#lName");
+    this.email = document.querySelector("#email");
+    this.zipcode = document.querySelector("#zipcode");
+    this.address = document.querySelector("#address");
+    this.city =  document.querySelector("#city");
+    this.province = document.querySelector("#province");
+    this.country = document.querySelector("#country");
+    this.phones = document.querySelectorAll('.phone');
+    this.phoneText = document.querySelector('#phoneText');
+    this.invalidPhoneText = document.querySelector('#invalidPhoneText');
   }
 
   
@@ -82,6 +92,21 @@ class UI {
       if (currentAlert) {
           currentAlert.remove();
       }
+  }
+
+  clearInput() {
+    this.firstName.value = '';
+    this.lastName.value= '';
+    this.email.value ='';
+    this.zipcode.value = '';
+    this.address.value = '';
+    this.city.value = '';
+    this.province.value = '';
+    this.country.value = '';
+    this.phoneText.innerText = '';
+    this.invalidPhoneText.innerText = '';
+
+    this.phones.forEach(phone => phone.value = '');
   }
 }
 

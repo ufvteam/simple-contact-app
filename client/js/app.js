@@ -63,13 +63,12 @@ class App {
         }
       }
 
-      console.log('Data is ---> ',JSON.stringify(contact));
-
       http
       .post(`${API_URL}`,contact)
       .then(result => {
 
-        ui.showAlert(result.msg, 'alert alert-success')
+        ui.showAlert(result.msg, 'alert alert-success');
+        ui.clearInput();
         setTimeout(() => {
           new People();
         }, 600);
