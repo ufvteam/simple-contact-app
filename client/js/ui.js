@@ -1,5 +1,6 @@
 const API_URL = 'http://localhost:3000/api/contacts';
 import { addCountryCode} from './validation.js';
+import {App} from './app.js';
 
 
 class UI {
@@ -54,7 +55,9 @@ class UI {
   }
 
 
-  
+ 
+
+
   showPeople(people) {
     if (people.contacts.length === 0) {
       // Create div
@@ -76,18 +79,28 @@ class UI {
       people.contacts.forEach((person) => {
         output += `
         <div class="card mb-3">
-        <div class="card-body">
+        <div class="card-body" data-id="${person.contactID}" >
             <h4 class="card-title">${person.firstName} ${person.lastName}</h4>
             <p class="card-text"><i class="fas fa-paper-plane"></i> ${person.email}</p>
             <p class="card-text"><i class="fas fa-home"></i> ${person.address.street}</p>
             <p class="card-text"><i class="fas fa-city"></i> ${person.address.city}</p>
             <p class="card-text"><i class="fas fa-map-marked-alt"></i> ${person.address.province}</p>
             <p class="card-text"><i class="fas fa-mail-bulk"></i> ${person.address.zipcode}</p>
-            <p class="card-text"><i class="fas fa-flag"></i> ${person.address.country}</p>
-            <a href="#" class="card-link edit" data-id="${person.contactID}">
+            <p class="card-text"><i class="fas fa-flag"></i> ${person.address.country}</p>`;
+
+            let phoneNums = person.phoneNumbers;
+            output+='<div class="row">';
+
+            phoneNums.forEach(number => {
+              output+=`<div class="card-text col-lg-2"><i class="fas fa-mobile-alt"></i> ${number}</div>`;
+            });
+
+            output+='</div><hr>'
+
+            output+=`<a href="#" class="card-link edit" data-id="${person.contactID}" onClick="UI.editContact(this, event)">
                 <i class="fas fa-pencil-alt"></i>
             </a>
-            <a href="#" class="card-link delete" data-id="${person.scoreID}">
+            <a href="#" class="card-link delete" data-id="${person.contactID}">
                 <i class="fas fa-user-times"></i>
             </a>
         </div>
@@ -97,6 +110,15 @@ class UI {
       this.show.innerHTML = output;
     }
   }
+
+  static editContact(id,e){
+
+    e.preventDefault();
+  
+    console.log('id ----> ',id);
+  
+  }
+
 
     // Show Alert
     showAlert(message, className) {

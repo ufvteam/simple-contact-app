@@ -8,15 +8,20 @@ class People {
   constructor() {
     http
       .get(`${API_URL}`)
-      .then((people) => ui.showPeople(people))
+      .then((people) => {
+        ui.showPeople(people)
+       // ui.addCRUDEventsListeners();
+      })
       .catch((err) => console.log(err));
   }
 }
 
-class App {
+export class App {
   constructor() {
     new People();
   }
+
+ 
 
   loadAllEvents() {
     // Add a person
@@ -28,6 +33,19 @@ class App {
     //Add one more phone Number
     document.querySelector("#addOneMoreContact-btn").addEventListener('click',(e) => ui.addPhoneField(e));
 
+
+  }
+
+  
+
+
+
+
+
+  updateContact(e){
+
+    e.preventDefault();
+    console.log('it is');
   }
 
   
@@ -96,5 +114,6 @@ class App {
 
 }
 
-const app = new App();
+ const app = new App();
+
 app.loadAllEvents();
