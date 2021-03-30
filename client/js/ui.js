@@ -1,6 +1,5 @@
 const API_URL = 'http://localhost:3000/api/contacts';
 import { addCountryCode } from './validation.js';
-import { App } from './app.js';
 
 class UI {
   constructor() {
@@ -9,6 +8,7 @@ class UI {
     this.lastName = document.querySelector('#lName');
     this.email = document.querySelector('#email');
     this.zipcode = document.querySelector('#zipcode');
+    this.phoneInput1 = document.querySelector('#phone_1');
     this.address = document.querySelector('#address');
     this.city = document.querySelector('#city');
     this.province = document.querySelector('#province');
@@ -121,15 +121,33 @@ class UI {
     }
   }
 
-  fillInputs(contact) {
+  fillInputs(contact, id, e) {
+    this.phoneInputCount = 0;
     this.firstName.value = contact.firstName;
     this.lastName.value = contact.lastName;
     this.email.value = contact.email;
-    this.zipcode.value = contact.zipcode;
+    this.zipcode.value = contact.address.zipcode;
     this.address.value = contact.address.street;
     this.city.value = contact.address.city;
     this.province.value = contact.address.province;
     this.country.value = contact.address.country;
+    this.idInput.value = id;
+
+    console.log('id ---> ', this.idInput);
+
+    // Remove the current phone input field
+    document.querySelector('.phoneNumberWrapper').remove();
+
+    //Fill phone Number
+    contact.phoneIDs.forEach((phone_id, index) => {
+      this.addPhoneField(e);
+
+      //Populate phone values into phone inputs
+      document.querySelector(`#phone_${index + 1}`).value =
+        contact.phoneNumbers[index];
+
+      document.querySelector(`#phone_${index + 1}`).dataset.id = phone_id;
+    });
   }
 
   // Show Alert
@@ -163,7 +181,7 @@ class UI {
     }
   }
 
-  clearInputs() {
+  clearInputs(e) {
     this.firstName.value = '';
     this.lastName.value = '';
     this.email.value = '';
@@ -183,7 +201,21 @@ class UI {
       invalidPhoneText.forEach((phone) => (phone.innerText = ''));
     }
 
+    this.clearPhoneNumbers(e);
+
     this.phones.forEach((phone) => (phone.value = ''));
+  }
+
+  clearPhoneNumbers(e) {
+    e.preventDefault();
+    // Remove the current phone input field
+    document
+      .querySelectorAll('.phoneNumberWrapper')
+      .forEach((el) => el.remove());
+
+    this.phoneInputCount = 1;
+
+    this.addPhoneField(e);
   }
 }
 

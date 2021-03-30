@@ -18,13 +18,14 @@ class People {
 export class App {
   constructor() {
     new People();
+    this.contact = {};
   }
 
   loadAllEvents() {
     // Add a person
     document
       .querySelector('#add-btn')
-      .addEventListener('click', this.addContact);
+      .addEventListener('click', () => this.addContact());
 
     //Delete All Contacts
     document
@@ -41,6 +42,11 @@ export class App {
       .querySelector('#show')
       .addEventListener('click', (e) => this.editContact(e));
 
+    // Cancel edit
+    document
+      .querySelector('#update-btn')
+      .addEventListener('click', (e) => this.updateContact(e));
+
     // Delete contact by icon
     document
       .querySelector('#show')
@@ -49,7 +55,7 @@ export class App {
     // Cancel edit
     document
       .querySelector('#back-btn')
-      .addEventListener('click', this.cancelEditState);
+      .addEventListener('click', (e) => this.cancelEditState(e));
   }
 
   deleteAllContacts() {
@@ -70,6 +76,7 @@ export class App {
     e.preventDefault();
 
     if (e.target.parentElement.classList.contains('edit')) {
+      ui.clearPhoneNumbers(e);
       const id = e.target.parentElement.dataset.id;
 
       http.get(`${API_URL}/${id}`).then((data) => {
@@ -77,21 +84,10 @@ export class App {
         const contact = data.data[0];
         console.log(contact);
 
+        // Change the add state to edit state
         ui.changeState('edit');
 
-        ui.fillInputs(contact);
-
-        // Populate the object to inputs for editing
-        // this.firstName = document.querySelector('#fName');
-        // this.lastName = document.querySelector('#lName');
-        // this.email = document.querySelector('#email');
-        // this.zipcode = document.querySelector('#zipcode');
-        // this.address = document.querySelector('#address');
-        // this.city = document.querySelector('#city');
-        // this.province = document.querySelector('#province');
-        // this.country = document.querySelector('#country');
-
-        // Change the add state to edit state
+        ui.fillInputs(contact, id, e);
       });
     }
   }
@@ -145,7 +141,48 @@ export class App {
       .post(`${API_URL}`, contact)
       .then((result) => {
         ui.showAlert(result.msg, 'alert alert-success');
-        ui.clearInput();
+        ui.clearInputs();
+        setTimeout(() => {
+          new People();
+        }, 600);
+      })
+      .catch((err) => console.log(err));
+  }
+
+  updateContact(e) {
+    e.preventDefault();
+    let firstName = document.querySelector('#fName').value;
+    let lastName = document.querySelector('#lName').value;
+    let email = document.querySelector('#email').value;
+
+    let phoneNumbers = [];
+    let formattedNumbers = document.querySelectorAll('.text-success > strong');
+
+    formattedNumbers.forEach((formattedNumber) => {
+      const number = formattedNumber.innerText;
+      phoneNumbers.push(number);
+      console.log('number =>', number);
+    });
+    const id = document.getElementById('id').value;
+    let contact = {
+      firstName,
+      lastName,
+      email,
+      phoneNumbers,
+      address: {
+        zipcode: document.querySelector('#zipcode').value,
+        street: document.querySelector('#address').value,
+        city: document.querySelector('#city').value,
+        province: document.querySelector('#province').value,
+        country: document.querySelector('#country').value,
+      },
+    };
+
+    http
+      .put(`${API_URL}/${id}`, contact)
+      .then((result) => {
+        ui.showAlert(result.msg, 'alert alert-success');
+        ui.clearInputs();
         setTimeout(() => {
           new People();
         }, 600);
@@ -154,9 +191,9 @@ export class App {
   }
 
   // Cancel Edit State
-  cancelEditState() {
+  cancelEditState(e) {
     ui.changeState('add');
-    ui.clearInputs();
+    ui.clearInputs(e);
   }
 }
 
