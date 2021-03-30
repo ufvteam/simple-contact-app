@@ -121,6 +121,17 @@ class UI {
     }
   }
 
+  fillInputs(contact) {
+    this.firstName.value = contact.firstName;
+    this.lastName.value = contact.lastName;
+    this.email.value = contact.email;
+    this.zipcode.value = contact.zipcode;
+    this.address.value = contact.address.street;
+    this.city.value = contact.address.city;
+    this.province.value = contact.address.province;
+    this.country.value = contact.address.country;
+  }
+
   // Show Alert
   showAlert(message, className) {
     // Clear any previous alert

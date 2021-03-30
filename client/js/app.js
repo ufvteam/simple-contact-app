@@ -79,7 +79,17 @@ export class App {
 
         ui.changeState('edit');
 
+        ui.fillInputs(contact);
+
         // Populate the object to inputs for editing
+        // this.firstName = document.querySelector('#fName');
+        // this.lastName = document.querySelector('#lName');
+        // this.email = document.querySelector('#email');
+        // this.zipcode = document.querySelector('#zipcode');
+        // this.address = document.querySelector('#address');
+        // this.city = document.querySelector('#city');
+        // this.province = document.querySelector('#province');
+        // this.country = document.querySelector('#country');
 
         // Change the add state to edit state
       });
