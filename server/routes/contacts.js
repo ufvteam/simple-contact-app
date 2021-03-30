@@ -66,7 +66,7 @@ router.post('/', function (req, res) {
       if (result) {
         insertId = result.insertId;
         console.log('Contact inserted into Contact table');
-      
+
         db.insertPhoneNumbers(req.body, insertId, function (phoneResult) {
           if (phoneResult !== undefined || phoneResult) {
             console.log('Phone Number Inserted');
@@ -102,7 +102,7 @@ router.put('/:id', function (req, res) {
 });
 
 // Delete a contact
-router.delete('/contacts/:id', function (req, res) {
+router.delete('/:id', function (req, res) {
   const id = req.params.id;
   try {
     db.deleteAContact(id, function (data) {
@@ -129,7 +129,6 @@ router.delete('/phones/:id', function (req, res) {
   }
 });
 
-
 // Delete All Contacts
 router.delete('/deleteAll', function (req, res) {
   try {
@@ -142,6 +141,5 @@ router.delete('/deleteAll', function (req, res) {
     res.status(400).json({ msg: 'Could not delete the contacts !!' });
   }
 });
-
 
 module.exports = router;
