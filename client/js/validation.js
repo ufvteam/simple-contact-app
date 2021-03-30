@@ -1,5 +1,7 @@
 document.getElementById('email').addEventListener('blur', validateEmail);
 
+
+
 let inputField_Phone = document.querySelector('.phone');
 
 addCountryCode(inputField_Phone, 1);
@@ -9,6 +11,9 @@ addCountryCode(inputField_Phone, 1);
 export function addCountryCode(phoneInputField,phone_Count){
 
   phoneInputField.addEventListener('blur', () => validatePhone(phoneInputField,phone_Count));
+
+  
+
   window.intlTelInput(phoneInputField, {
     preferredCountries: ['ca', 'us'],
     separateDialCode: true,
@@ -22,7 +27,7 @@ export function addCountryCode(phoneInputField,phone_Count){
 
 
 
-function validatePhone(inputField, count) {
+export function validatePhone(inputField, count) {
   const info = document.querySelector(`#phoneSuccess_${count}`);
   const error = document.querySelector(`#phoneDanger_${count}`);
 

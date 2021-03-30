@@ -1,5 +1,5 @@
 const API_URL = 'http://localhost:3000/api/contacts';
-import { addCountryCode } from './validation.js';
+import { addCountryCode, validatePhone } from './validation.js';
 
 class UI {
   constructor() {
@@ -146,7 +146,14 @@ class UI {
       document.querySelector(`#phone_${index + 1}`).value =
         contact.phoneNumbers[index];
 
+        //console.log(`id at ${index} --> `,phone_id);
       document.querySelector(`#phone_${index + 1}`).dataset.id = phone_id;
+
+      // console.log(`Data-id ${index} --> `,document.querySelector(`#phone_${index + 1}`).dataset.id);
+
+      validatePhone(document.querySelector(`#phone_${index + 1}`),index+1);
+
+
     });
   }
 

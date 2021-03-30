@@ -97,6 +97,7 @@ export class App {
     if (e.target.parentElement.classList.contains('delete')) {
       const id = e.target.parentElement.dataset.id;
 
+
       if (confirm('Are you sure?')) {
         http.delete(`${API_URL}/${id}`).then((result) => {
           ui.showAlert(result.msg, 'alert alert-warning');
@@ -150,25 +151,35 @@ export class App {
   }
 
   updateContact(e) {
-    e.preventDefault();
+
     let firstName = document.querySelector('#fName').value;
     let lastName = document.querySelector('#lName').value;
     let email = document.querySelector('#email').value;
 
     let phoneNumbers = [];
+    let phoneIDs = [];
     let formattedNumbers = document.querySelectorAll('.text-success > strong');
 
     formattedNumbers.forEach((formattedNumber) => {
       const number = formattedNumber.innerText;
       phoneNumbers.push(number);
-      console.log('number =>', number);
+     
     });
+
+    document.querySelectorAll('.phoneNumberWrapper').forEach((phone,i)=>{
+      console.log('id ',i,' ',document.querySelector(`#phone_${i+1}`).dataset.id);
+      phoneIDs.push(document.querySelector(`#phone_${i+1}`).dataset.id);
+    })
+
+
+
     const id = document.getElementById('id').value;
     let contact = {
       firstName,
       lastName,
       email,
       phoneNumbers,
+      phoneIDs,
       address: {
         zipcode: document.querySelector('#zipcode').value,
         street: document.querySelector('#address').value,
@@ -178,14 +189,15 @@ export class App {
       },
     };
 
+    //Put request for the API
     http
       .put(`${API_URL}/${id}`, contact)
       .then((result) => {
         ui.showAlert(result.msg, 'alert alert-success');
-        ui.clearInputs();
+        ui.clearInputs(e);
         setTimeout(() => {
           new People();
-        }, 600);
+        }, 800);
       })
       .catch((err) => console.log(err));
   }
