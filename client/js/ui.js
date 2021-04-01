@@ -15,7 +15,7 @@ class UI {
     this.country = document.querySelector('#country');
     this.phones = document.querySelectorAll('.phone');
     this.idInput = document.querySelector('#id');
-
+    this.addOneMorePhoneButton = document.querySelector("#addOneMoreContact-btn");
     this.addBtn = document.querySelector('#add-btn');
     this.updateBtn = document.querySelector('#update-btn');
     this.deleteBtn = document.querySelector('#delete-btn');
@@ -31,13 +31,21 @@ class UI {
       this.deleteBtn.style.display = 'inline';
       this.backBtn.style.display = 'inline';
       this.addBtn.style.display = 'none';
+      this.addOneMorePhoneButton.style.display='none';
+
     } else if (type === 'add') {
       this.updateBtn.style.display = 'none';
       this.deleteBtn.style.display = 'none';
       this.backBtn.style.display = 'none';
       this.addBtn.style.display = 'inline';
+      this.addOneMorePhoneButton.style.display='inline-block';
       this.idInput.value = '';
     }
+  }
+
+  addDeleteButtons(e){
+
+    
   }
 
   addPhoneField(e) {
