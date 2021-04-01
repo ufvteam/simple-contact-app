@@ -43,10 +43,7 @@ class UI {
     }
   }
 
-  addDeleteButtons(e){
 
-    
-  }
 
   addPhoneField(e) {
     this.phoneInputCount++;
