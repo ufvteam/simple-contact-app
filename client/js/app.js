@@ -42,6 +42,11 @@ export class App {
       .querySelector('#show')
       .addEventListener('click', (e) => this.editContact(e));
 
+    //Delete contact
+    document
+      .querySelector('#delete-btn')
+      .addEventListener('click', (e) => this.deleteContact(e));
+
     // Cancel edit
     document
       .querySelector('#update-btn')
@@ -108,6 +113,20 @@ export class App {
         ui.changeState('edit');
 
         ui.fillInputs(contact, id, e);
+      });
+    }
+  }
+
+  deleteContact(e) {
+    e.preventDefault();
+
+    const id = document.getElementById('id').value;
+
+    if (confirm('Are you sure?')) {
+      http.delete(`${API_URL}/${id}`).then((result) => {
+        ui.showAlert(result.msg, 'alert alert-warning');
+
+        setTimeout(() => new People(), 600);
       });
     }
   }
@@ -184,12 +203,6 @@ export class App {
     });
 
     document.querySelectorAll('.phoneNumberWrapper').forEach((phone, i) => {
-      console.log(
-        'id ',
-        i,
-        ' ',
-        document.querySelector(`#phone_${i + 1}`).dataset.id
-      );
       phoneIDs.push(document.querySelector(`#phone_${i + 1}`).dataset.id);
     });
 
@@ -215,6 +228,7 @@ export class App {
       .then((result) => {
         ui.showAlert(result.msg, 'alert alert-success');
         ui.clearInputs(e);
+        ui.changeState('add');
         setTimeout(() => {
           new People();
         }, 800);
