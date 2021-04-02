@@ -56,6 +56,10 @@ export class App {
     document
       .querySelector('#back-btn')
       .addEventListener('click', (e) => this.cancelEditState(e));
+
+    document
+      .querySelector('#contactWrapper')
+      .addEventListener('click', (e) => this.deleteOnePhoneNumber(e));
   }
 
   deleteAllContacts() {
@@ -72,6 +76,23 @@ export class App {
         .catch((err) => console.log(err));
     }
   }
+
+  deleteOnePhoneNumber(e) {
+    if (e.target.parentElement.classList.contains('del-by-icon')) {
+      const id = e.target.parentElement.dataset.id;
+
+      if (confirm('Are you sure?')) {
+        // Call the API to delete the phone number
+        http.delete(`${API_URL}/phones/${id}`).then((result) => {
+          e.target.parentElement.parentElement.remove();
+          ui.showAlert(result.msg, 'alert alert-warning');
+        });
+      }
+    }
+
+    e.preventDefault();
+  }
+
   editContact(e) {
     e.preventDefault();
 

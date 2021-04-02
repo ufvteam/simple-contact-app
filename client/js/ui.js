@@ -168,13 +168,12 @@ class UI {
     parentElement.forEach((phone, index) => {
       if (index > 0) {
         let deleteButton = document.createElement('a');
-        deleteButton.className = 'card-link text-danger mx-3 delete';
+        deleteButton.className =
+          'card-link text-danger mx-3 delete del-by-icon';
 
         const phoneNumberInputField = document.querySelector(
           `#phone_${index + 1}`
         );
-
-        console.log('id is --> ', phoneNumberInputField.dataset.id);
 
         deleteButton.dataset.id = `${phoneNumberInputField.dataset.id}`;
 
