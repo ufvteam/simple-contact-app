@@ -95,11 +95,12 @@ export class App {
         http.delete(`${API_URL}/phones/${id}`).then((result) => {
           e.target.parentElement.parentElement.remove();
           ui.showAlert(result.msg, 'alert alert-warning');
+          ui.updatePhoneNumberCount();
 
           setTimeout(() => {
             new People();
           }, 800);
-          
+
         });
       }
     }

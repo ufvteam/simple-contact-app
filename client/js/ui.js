@@ -42,9 +42,12 @@ class UI {
   }
 
   addPhoneField(e) {
-    this.phoneInputCount++;
-
+  
     e.preventDefault();
+
+
+    if(this.phoneInputCount < 2){
+      this.phoneInputCount++;
 
     let phoneNumberDiv = document.createElement('div');
 
@@ -69,6 +72,18 @@ class UI {
     const phoneInput = document.querySelector(`#phone_${this.phoneInputCount}`);
 
     addCountryCode(phoneInput, this.phoneInputCount);
+    }
+    else{
+
+      alert('Cant add more than 2 contacts per person');
+      
+      
+    }
+  }
+
+
+  updatePhoneNumberCount(){
+    this.phoneInputCount--;
   }
 
   showPeople(people) {
@@ -149,6 +164,7 @@ class UI {
     // Remove the current phone input field
     document.querySelector('.phoneNumberWrapper').remove();
 
+
     //Fill phone Number
     contact.phoneIDs.forEach((phone_id, index) => {
       this.addPhoneField(e);
@@ -164,6 +180,11 @@ class UI {
 
       validatePhone(document.querySelector(`#phone_${index + 1}`), index + 1);
     });
+
+    //Remove trash/delete icon from first phone number input field
+    document.querySelector('.phoneNumberWrapper > .del-by-icon').remove();
+
+
     this.setIdForPhoneWrapper(e);
   }
 
@@ -186,7 +207,7 @@ class UI {
   }
 
   // Show Alert
-  showAlert(message, className) {
+  showAlert(message, className,insertPosition = document.querySelector("#show")) {
     // Clear any previous alert
     this.clearAlert();
     // Create div
@@ -198,7 +219,7 @@ class UI {
     // Get parent
     const container = document.querySelector('.peoplePage');
     // Get posts
-    const show = document.querySelector('#show');
+    const show = insertPosition;
     // Insert alert div
     container.insertBefore(div, show);
 
@@ -237,6 +258,8 @@ class UI {
     }
 
     this.clearPhoneNumbers(e);
+
+    document.querySelector(".del-by-icon").remove();
 
     this.phones.forEach((phone) => (phone.value = ''));
   }
