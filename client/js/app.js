@@ -25,7 +25,7 @@ export class App {
     // Add a person
     document
       .querySelector('#add-btn')
-      .addEventListener('click', () => this.addContact());
+      .addEventListener('click', (e) => this.addContact(e));
 
     //Delete All Contacts
     document
@@ -125,6 +125,8 @@ export class App {
     if (confirm('Are you sure?')) {
       http.delete(`${API_URL}/${id}`).then((result) => {
         ui.showAlert(result.msg, 'alert alert-warning');
+        ui.clearInputs(e);
+        ui.changeState('add');
 
         setTimeout(() => new People(), 600);
       });
@@ -146,7 +148,7 @@ export class App {
     }
   }
 
-  addContact() {
+  addContact(e) {
     let firstName = document.querySelector('#fName').value;
     let lastName = document.querySelector('#lName').value;
     let email = document.querySelector('#email').value;
@@ -180,10 +182,10 @@ export class App {
       .post(`${API_URL}`, contact)
       .then((result) => {
         ui.showAlert(result.msg, 'alert alert-success');
-        ui.clearInputs();
+        ui.clearInputs(e);
         setTimeout(() => {
           new People();
-        }, 600);
+        }, 800);
       })
       .catch((err) => console.log(err));
   }
