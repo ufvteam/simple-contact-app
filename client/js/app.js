@@ -83,6 +83,8 @@ export class App {
   }
 
   deleteOnePhoneNumber(e) {
+    e.preventDefault();
+
     if (e.target.parentElement.classList.contains('del-by-icon')) {
       const id =
         e.target.parentElement.parentElement.firstChild.firstChild
@@ -93,11 +95,16 @@ export class App {
         http.delete(`${API_URL}/phones/${id}`).then((result) => {
           e.target.parentElement.parentElement.remove();
           ui.showAlert(result.msg, 'alert alert-warning');
+
+          setTimeout(() => {
+            new People();
+          }, 800);
+          
         });
       }
     }
 
-    e.preventDefault();
+    
   }
 
   editContact(e) {
@@ -193,6 +200,8 @@ export class App {
   }
 
   updateContact(e) {
+
+    e.preventDefault();
     let firstName = document.querySelector('#fName').value;
     let lastName = document.querySelector('#lName').value;
     let email = document.querySelector('#email').value;
@@ -231,9 +240,6 @@ export class App {
         country: document.querySelector('#country').value,
       },
     };
-
-
-    console.log('Req object is ---> ',contact);
 
     //Put request for the API
     http
