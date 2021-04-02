@@ -78,6 +78,7 @@ class UI {
       const div = document.createElement('div');
       // Add classes
       div.className = 'alert alert-warning text-center';
+      div.id = 'noContactsAlertMessage';
       div.innerHTML = 'There is nobody here. Add someone now &#x1F61C';
       // Get parent
       const container = document.querySelector('.peoplePage');
@@ -90,6 +91,14 @@ class UI {
       show.innerHTML = '';
     } else {
       let output = '';
+
+      //remove noContacts alert message if there are contacts in the api response
+      const noContactsAlert = document.querySelector('#noContactsAlertMessage');
+
+      if (noContactsAlert) {
+        noContactsAlert.remove();
+      }
+
       people.contacts.forEach((person) => {
         output += `
         <div class="card mb-3">
