@@ -84,7 +84,9 @@ export class App {
 
   deleteOnePhoneNumber(e) {
     if (e.target.parentElement.classList.contains('del-by-icon')) {
-      const id = e.target.parentElement.dataset.id;
+      const id =
+        e.target.parentElement.parentElement.firstChild.firstChild
+          .nextElementSibling.dataset.id;
 
       if (confirm('Are you sure?')) {
         // Call the API to delete the phone number

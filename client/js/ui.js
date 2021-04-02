@@ -15,9 +15,7 @@ class UI {
     this.country = document.querySelector('#country');
     this.phones = document.querySelectorAll('.phone');
     this.idInput = document.querySelector('#id');
-    this.addOneMorePhoneButton = document.querySelector(
-      '#addOneMoreContact-btn'
-    );
+
     this.addBtn = document.querySelector('#add-btn');
     this.updateBtn = document.querySelector('#update-btn');
     this.deleteBtn = document.querySelector('#delete-btn');
@@ -33,13 +31,12 @@ class UI {
       this.deleteBtn.style.display = 'inline';
       this.backBtn.style.display = 'inline';
       this.addBtn.style.display = 'none';
-      this.addOneMorePhoneButton.style.display = 'none';
     } else if (type === 'add') {
       this.updateBtn.style.display = 'none';
       this.deleteBtn.style.display = 'none';
       this.backBtn.style.display = 'none';
       this.addBtn.style.display = 'inline';
-      this.addOneMorePhoneButton.style.display = 'inline-block';
+
       this.idInput.value = '';
     }
   }
@@ -54,6 +51,8 @@ class UI {
     phoneNumberDiv.className = 'col-md-6 phoneNumberWrapper';
 
     phoneNumberDiv.innerHTML = `<input id="phone_${this.phoneInputCount}" class="form-control phone" type="tel" name="phone" />
+    <a class="card-link text-danger mx-3 delete del-by-icon"><em class="far fa-trash-alt"></em></a>
+
     <div class="invalid-feedback">Enter a valid phone number</div>
     <div class="text text-success" id="phoneSuccess_${this.phoneInputCount}" style="display: none"></div>
     <div class="text text-danger phone-danger" id="phoneDanger_${this.phoneInputCount}" style="display: none"></div>
@@ -165,35 +164,23 @@ class UI {
 
       validatePhone(document.querySelector(`#phone_${index + 1}`), index + 1);
     });
-    this.addDeleteContactButtons(e);
+    this.setIdForPhoneWrapper(e);
   }
 
   //Add delete buttons for deleting contact number for a given contact having multiple numbers
-  addDeleteContactButtons(e) {
+  setIdForPhoneWrapper(e) {
     e.preventDefault();
 
     let parentElement = document.querySelectorAll('.phoneNumberWrapper');
 
     parentElement.forEach((phone, index) => {
       if (index > 0) {
-        let deleteButton = document.createElement('a');
-        deleteButton.className =
-          'card-link text-danger mx-3 delete del-by-icon';
-
         const phoneNumberInputField = document.querySelector(
           `#phone_${index + 1}`
         );
 
-        deleteButton.dataset.id = `${phoneNumberInputField.dataset.id}`;
-
-        deleteButton.innerHTML += `
-                        <em class="far fa-trash-alt"></em>
-                     `;
-
-        phone.insertBefore(
-          deleteButton,
-          document.querySelector(`#phoneSuccess_${index + 1}`)
-        );
+        // deleteButton.dataset.id = `${phoneNumberInputField.dataset.id}`;
+        phone.dataset.id = `${phoneNumberInputField.dataset.id}`;
       }
     });
   }
