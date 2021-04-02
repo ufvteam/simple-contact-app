@@ -174,14 +174,14 @@ class UI {
     let parentElement = document.querySelectorAll('.phoneNumberWrapper');
 
     parentElement.forEach((phone, index) => {
-      if (index > 0) {
+     // if (index > 0) {
         const phoneNumberInputField = document.querySelector(
           `#phone_${index + 1}`
         );
 
         // deleteButton.dataset.id = `${phoneNumberInputField.dataset.id}`;
         phone.dataset.id = `${phoneNumberInputField.dataset.id}`;
-      }
+     // }
     });
   }
 

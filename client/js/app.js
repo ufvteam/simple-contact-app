@@ -207,7 +207,13 @@ export class App {
     });
 
     document.querySelectorAll('.phoneNumberWrapper').forEach((phone, i) => {
-      phoneIDs.push(document.querySelector(`#phone_${i + 1}`).dataset.id);
+      if(phone.dataset.id != null) {
+        phoneIDs.push(phone.dataset.id);
+      }
+      else{
+        phoneIDs.push("");
+      }
+     
     });
 
     const id = document.getElementById('id').value;
@@ -225,6 +231,9 @@ export class App {
         country: document.querySelector('#country').value,
       },
     };
+
+
+    console.log('Req object is ---> ',contact);
 
     //Put request for the API
     http
