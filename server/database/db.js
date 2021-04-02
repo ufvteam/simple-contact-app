@@ -167,7 +167,11 @@ function updateContact(id, contact) {
 
     // Update phone table
     for (let i = 0; i < contact.phoneIDs.length; i++) {
-      let query = `UPDATE Phone_Numbers SET number = "${contact.phoneNumbers[i]}" WHERE phoneID = ${contact.phoneIDs[i]} AND contactID = ${id}`;
+      let query =
+        contact.phoneIDs[i] === ''
+          ? `INSERT INTO Phone_Numbers (contactID,number) VALUES("${id}","${contact.phoneNumbers[i]}")`
+          : `UPDATE Phone_Numbers SET number = "${contact.phoneNumbers[i]}" WHERE phoneID = ${contact.phoneIDs[i]} AND contactID = ${id}`;
+
       queryDatabase(query, function (data) {
         if (data) {
           console.log(`Phone number ${i + 1} updated`);
@@ -190,7 +194,6 @@ function deleteAllContacts(callback) {
   queryDatabase(query, callback);
 }
 
-
 function deletePhoneNumber(id, callback) {
   let query = `DELETE FROM Phone_Numbers WHERE phoneID = ${id}`;
   queryDatabase(query, callback);
@@ -205,5 +208,5 @@ module.exports = {
   updateContact,
   deleteAContact,
   deletePhoneNumber,
- deleteAllContacts
+  deleteAllContacts,
 };
