@@ -15,7 +15,9 @@ class UI {
     this.country = document.querySelector('#country');
     this.phones = document.querySelectorAll('.phone');
     this.idInput = document.querySelector('#id');
-    this.addOneMorePhoneButton = document.querySelector("#addOneMoreContact-btn");
+    this.addOneMorePhoneButton = document.querySelector(
+      '#addOneMoreContact-btn'
+    );
     this.addBtn = document.querySelector('#add-btn');
     this.updateBtn = document.querySelector('#update-btn');
     this.deleteBtn = document.querySelector('#delete-btn');
@@ -31,19 +33,16 @@ class UI {
       this.deleteBtn.style.display = 'inline';
       this.backBtn.style.display = 'inline';
       this.addBtn.style.display = 'none';
-      this.addOneMorePhoneButton.style.display='none';
-
+      this.addOneMorePhoneButton.style.display = 'none';
     } else if (type === 'add') {
       this.updateBtn.style.display = 'none';
       this.deleteBtn.style.display = 'none';
       this.backBtn.style.display = 'none';
       this.addBtn.style.display = 'inline';
-      this.addOneMorePhoneButton.style.display='inline-block';
+      this.addOneMorePhoneButton.style.display = 'inline-block';
       this.idInput.value = '';
     }
   }
-
-
 
   addPhoneField(e) {
     this.phoneInputCount++;
@@ -106,8 +105,8 @@ class UI {
         let phoneNums = person.phoneNumbers;
         output += '<div class="row">';
 
-        phoneNums.forEach((number) => {
-          output += `<div class="card-text col-lg-2"><i class="fas fa-mobile-alt"></i> ${number}</div>`;
+        phoneNums.forEach((number, index) => {
+          output += `<div class="card-text col-lg-2" data-id='${person.phoneIDs[index]}'><i class="fas fa-mobile-alt"></i> ${number}</div>`;
         });
 
         output += '</div><hr>';
@@ -127,6 +126,7 @@ class UI {
   }
 
   fillInputs(contact, id, e) {
+    e.preventDefault();
     this.phoneInputCount = 0;
     this.firstName.value = contact.firstName;
     this.lastName.value = contact.lastName;
@@ -137,8 +137,6 @@ class UI {
     this.province.value = contact.address.province;
     this.country.value = contact.address.country;
     this.idInput.value = id;
-
-    console.log('id ---> ', this.idInput);
 
     // Remove the current phone input field
     document.querySelector('.phoneNumberWrapper').remove();
@@ -151,14 +149,44 @@ class UI {
       document.querySelector(`#phone_${index + 1}`).value =
         contact.phoneNumbers[index];
 
-        //console.log(`id at ${index} --> `,phone_id);
+      //console.log(`id at ${index} --> `,phone_id);
       document.querySelector(`#phone_${index + 1}`).dataset.id = phone_id;
 
       // console.log(`Data-id ${index} --> `,document.querySelector(`#phone_${index + 1}`).dataset.id);
 
-      validatePhone(document.querySelector(`#phone_${index + 1}`),index+1);
+      validatePhone(document.querySelector(`#phone_${index + 1}`), index + 1);
+    });
+    this.addDeleteContactButtons(e);
+  }
 
+  //Add delete buttons for deleting contact number for a given contact having multiple numbers
+  addDeleteContactButtons(e) {
+    e.preventDefault();
 
+    let parentElement = document.querySelectorAll('.phoneNumberWrapper');
+
+    parentElement.forEach((phone, index) => {
+      if (index > 0) {
+        let deleteButton = document.createElement('a');
+        deleteButton.className = 'card-link text-danger mx-3 delete';
+
+        const phoneNumberInputField = document.querySelector(
+          `#phone_${index + 1}`
+        );
+
+        console.log('id is --> ', phoneNumberInputField.dataset.id);
+
+        deleteButton.dataset.id = `${phoneNumberInputField.dataset.id}`;
+
+        deleteButton.innerHTML += `
+                        <em class="far fa-trash-alt"></em>
+                     `;
+
+        phone.insertBefore(
+          deleteButton,
+          document.querySelector(`#phoneSuccess_${index + 1}`)
+        );
+      }
     });
   }
 

@@ -1,18 +1,13 @@
 document.getElementById('email').addEventListener('blur', validateEmail);
 
-
-
 let inputField_Phone = document.querySelector('.phone');
 
 addCountryCode(inputField_Phone, 1);
 
-
-
-export function addCountryCode(phoneInputField,phone_Count){
-
-  phoneInputField.addEventListener('blur', () => validatePhone(phoneInputField,phone_Count));
-
-  
+export function addCountryCode(phoneInputField, phone_Count) {
+  phoneInputField.addEventListener('blur', () =>
+    validatePhone(phoneInputField, phone_Count)
+  );
 
   window.intlTelInput(phoneInputField, {
     preferredCountries: ['ca', 'us'],
@@ -20,28 +15,17 @@ export function addCountryCode(phoneInputField,phone_Count){
     utilsScript:
       'https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js',
   });
-
-
 }
-
-
-
 
 export function validatePhone(inputField, count) {
   const info = document.querySelector(`#phoneSuccess_${count}`);
   const error = document.querySelector(`#phoneDanger_${count}`);
 
-  console.log('Count --> ',count);
-  console.log('error -> ',error);
-  console.log('info --> ',info);
   //event.preventDefault();
   const phoneInput = window.intlTelInputGlobals.getInstance(inputField);
 
-  
   const fullPhoneNumber = phoneInput.getNumber(); // Save this one to database
   const nationPhoneNumber = phoneInput.getNumber(inputField.value);
-
-  
 
   if (phoneInput.isValidNumber()) {
     inputField.classList.remove('is-invalid');

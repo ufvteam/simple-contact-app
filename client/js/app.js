@@ -82,7 +82,6 @@ export class App {
       http.get(`${API_URL}/${id}`).then((data) => {
         // Get the contact Object
         const contact = data.data[0];
-        console.log(contact);
 
         // Change the add state to edit state
         ui.changeState('edit');
@@ -96,7 +95,6 @@ export class App {
     e.preventDefault();
     if (e.target.parentElement.classList.contains('delete')) {
       const id = e.target.parentElement.dataset.id;
-
 
       if (confirm('Are you sure?')) {
         http.delete(`${API_URL}/${id}`).then((result) => {
@@ -151,7 +149,6 @@ export class App {
   }
 
   updateContact(e) {
-
     let firstName = document.querySelector('#fName').value;
     let lastName = document.querySelector('#lName').value;
     let email = document.querySelector('#email').value;
@@ -163,15 +160,17 @@ export class App {
     formattedNumbers.forEach((formattedNumber) => {
       const number = formattedNumber.innerText;
       phoneNumbers.push(number);
-     
     });
 
-    document.querySelectorAll('.phoneNumberWrapper').forEach((phone,i)=>{
-      console.log('id ',i,' ',document.querySelector(`#phone_${i+1}`).dataset.id);
-      phoneIDs.push(document.querySelector(`#phone_${i+1}`).dataset.id);
-    })
-
-
+    document.querySelectorAll('.phoneNumberWrapper').forEach((phone, i) => {
+      console.log(
+        'id ',
+        i,
+        ' ',
+        document.querySelector(`#phone_${i + 1}`).dataset.id
+      );
+      phoneIDs.push(document.querySelector(`#phone_${i + 1}`).dataset.id);
+    });
 
     const id = document.getElementById('id').value;
     let contact = {
