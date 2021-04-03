@@ -188,6 +188,29 @@ class UI {
     this.setIdForPhoneWrapper(e);
   }
 
+
+  //Validate Input --- on update & add
+  userInputIsInvalid(){
+
+    let hasErrors = false;
+
+let inputElements = document.querySelectorAll("#contactWrapper .form-control")
+
+    console.log('Elements => ',inputElements);
+
+    inputElements.forEach((element,i) => {
+      console.log(i, ' ---- ', element.value.trim());
+      if(element.value.trim() == ''){
+        hasErrors = true;
+        
+      }
+    }
+    );
+
+    return hasErrors;
+
+  }
+
   //Add delete buttons for deleting contact number for a given contact having multiple numbers
   setIdForPhoneWrapper(e) {
     e.preventDefault();

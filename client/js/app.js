@@ -115,15 +115,18 @@ export class App {
       ui.clearPhoneNumbers(e);
       const id = e.target.parentElement.dataset.id;
 
-      http.get(`${API_URL}/${id}`).then((data) => {
-        // Get the contact Object
-        const contact = data.data[0];
 
-        // Change the add state to edit state
-        ui.changeState('edit');
+        http.get(`${API_URL}/${id}`).then((data) => {
+          // Get the contact Object
+          const contact = data.data[0];
+  
+          // Change the add state to edit state
+          ui.changeState('edit');
+  
+          ui.fillInputs(contact, id, e);
+        });
 
-        ui.fillInputs(contact, id, e);
-      });
+
     }
   }
 
@@ -188,7 +191,8 @@ export class App {
       },
     };
 
-    http
+    if(!ui.userInputIsInvalid()){
+      http
       .post(`${API_URL}`, contact)
       .then((result) => {
         ui.showAlert(result.msg, 'alert alert-success');
@@ -198,6 +202,13 @@ export class App {
         }, 800);
       })
       .catch((err) => console.log(err));
+
+    }
+    else{
+
+      ui.showAlert('Please input values for all the fields !!', 'alert alert-danger');
+    }
+  
   }
 
   updateContact(e) {
@@ -242,18 +253,27 @@ export class App {
       },
     };
 
-    //Put request for the API
+
+    if(!ui.userInputIsInvalid()){
+       //Put request for the API
     http
-      .put(`${API_URL}/${id}`, contact)
-      .then((result) => {
-        ui.showAlert(result.msg, 'alert alert-success');
-        ui.clearInputs(e);
-        ui.changeState('add');
-        setTimeout(() => {
-          new People();
-        }, 800);
-      })
-      .catch((err) => console.log(err));
+    .put(`${API_URL}/${id}`, contact)
+    .then((result) => {
+      ui.showAlert(result.msg, 'alert alert-success');
+      ui.clearInputs(e);
+      ui.changeState('add');
+      setTimeout(() => {
+        new People();
+      }, 800);
+    })
+    .catch((err) => console.log(err));
+
+    }
+    else{
+
+      ui.showAlert('Please input values for all the fields !!', 'alert alert-danger');
+    }
+   
   }
 
   // Cancel Edit State
