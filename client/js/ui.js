@@ -196,10 +196,9 @@ class UI {
 
 let inputElements = document.querySelectorAll("#contactWrapper .form-control")
 
-    console.log('Elements => ',inputElements);
-
+  
     inputElements.forEach((element,i) => {
-      console.log(i, ' ---- ', element.value.trim());
+     
       if(element.value.trim() == ''){
         hasErrors = true;
         
